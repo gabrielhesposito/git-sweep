@@ -32,7 +32,6 @@ function print_warn ()
 function dive_dir ()
 {
   dir_init=$1
-  depth_init=0
   sleep 1; 
   if [ -n $2 ];
    then
@@ -42,7 +41,7 @@ function dive_dir ()
     depth_init=0  
   fi
 
-  for directory in $dir_init*;
+  for directory in $dir_init;
   do
     if [ -d $directory ];
      then
@@ -55,11 +54,11 @@ function dive_dir ()
             verify_git_repo $directory
          #echo $directory;
      	 # done
-         for (( depth_init2='$depth_init';  depth_init2 <= "$SEARCH_DEPTH"; depth_init2++));
-         do 
-              
-	      print_warn "depth" $depth	
-              dive_dir  $directory $depth
+        
+         for (( depth_init2=$(($depth_init));  depth_init2 <= "$SEARCH_DEPTH"; ++depth_init2));
+         do              
+	      print_warn "depth" $depth_init2	
+              dive_dir  $directory $depth_init2
          done
       fi
          return
@@ -93,8 +92,7 @@ function get_timestamp ()
         mytime=`date +%s`
         print_warn "SYS TIME" "$mytime"
 
-        TIME_DIFF_IN_SEC=($mytime - ${arr[4]})
-          
+        TIME_DIFF_IN_SEC=($mytime - ${arr[4]})         
         print_warn "LAST MOD" "$TIME_DIFF_IN_SEC"
 
         if [ $TIME_DIFF_IN_SEC -gt 86400 ]
@@ -110,9 +108,6 @@ function get_timestamp ()
              # kill proc --> freshness found
              #
         fi
-
-
-
 }
 
 
