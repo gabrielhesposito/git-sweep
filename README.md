@@ -1,2 +1,3 @@
 # git-sweep
-using bash to find commit time/date on docker images without git, O(log N) tree alogrithm
+it's broken -- needs a new search approach
+    ./sweep.sh /docker/dir/ 2
